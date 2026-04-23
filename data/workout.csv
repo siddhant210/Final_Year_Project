@@ -1,0 +1,12 @@
+workoutActivityType,duration,creationDate,averageMET,ActiveEnergyBurned,HeartRateAverage,HeartRateMinimum,HeartRateMaximum,BasalEnergyBurned
+HKWorkoutActivityTypeCoreTraining,34.43465495109558,2025-02-11 21:21:15 +0530,5.33182 kcal/hr·kg,171.337,119.925,90,140,57.1252
+HKWorkoutActivityTypeHighIntensityIntervalTraining,62.34007720152537,2025-02-12 18:44:23 +0530,9.92841 kcal/hr·kg,698.917,144.466,94,168,105.208
+HKWorkoutActivityTypeWalking,15.48827516635259,2025-02-12 19:33:14 +0530,4.42637 kcal/hr·kg,62.8247,118.011,111,125,26.0275
+HKWorkoutActivityTypeWalking,14.93188083370527,2025-02-12 21:20:34 +0530,3.41329 kcal/hr·kg,41.6433,110.957,98,120,24.8538
+HKWorkoutActivityTypeCoreTraining,51.9010046005249,2025-02-13 20:42:37 +0530,5.81416 kcal/hr·kg,300.667,120.196,87,149,87.3982
+HKWorkoutActivityTypeHighIntensityIntervalTraining,62.44696736733119,2025-02-15 20:49:53 +0530,9.97448 kcal/hr·kg,703.783,144.286,86,172,105.359
+HKWorkoutActivityTypeCoreTraining,46.70900901556015,2025-02-16 21:09:41 +0530,5.96284 kcal/hr·kg,276.185,117.796,86,157,78.7409
+HKWorkoutActivityTypeHighIntensityIntervalTraining,61.41670696735382,2025-02-17 20:19:26 +0530,10.3827 kcal/hr·kg,724.288,146.268,100,177,103.589
+HKWorkoutActivityTypeCoreTraining,47.78914821545283,2025-02-18 18:23:26 +0530,6.94938 kcal/hr·kg,348.106,130.872,104,162,80.28
+HKWorkoutActivityTypeHighIntensityIntervalTraining,63.18125079870224,2025-02-19 20:29:58 +0530,10.3088 kcal/hr·kg,745.628,143.407,91,172,106.628
+HKWorkoutActivityTypeCoreTraining,49.87340569893519,2025-02-20 19:53:13 +0530,6.47091 kcal/hr·kg,330.184,123.167,101,153,83.1779
