@@ -351,7 +351,7 @@ export default function SleepPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Sleep Analysis</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">Sleep Analysis</h1>
       
       {/* Time range selector */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -398,7 +398,7 @@ export default function SleepPage() {
       </div>
 
       {/* Sleep stage composition chart */}
-      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+      <div className="bg-white dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 rounded-lg shadow-md p-4 mb-6">
         <h2 className="text-xl font-semibold mb-4">Sleep Stage Composition</h2>
         <div className="h-80">
           <Bar data={sleepStageChartData} options={sleepStageChartOptions} />
@@ -406,7 +406,7 @@ export default function SleepPage() {
       </div>
 
       {/* Sleep efficiency chart */}
-      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+      <div className="bg-white dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 rounded-lg shadow-md p-4 mb-6">
         <h2 className="text-xl font-semibold mb-4">Sleep Efficiency</h2>
         <div className="h-80">
           <Line data={efficiencyChartData} options={efficiencyChartOptions} />
@@ -430,14 +430,14 @@ export default function SleepPage() {
 
       {/* Doctor's Analysis Results */}
       {doctorAnalysis && (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div className="bg-white dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 rounded-lg shadow-md p-4 mb-6">
           <h2 className="text-xl font-semibold mb-2">Doctor's Analysis</h2>
           <div className="whitespace-pre-wrap">{doctorAnalysis}</div>
         </div>
       )}
 
       {/* Data table */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 rounded-lg shadow-md overflow-hidden">
         <h2 className="text-xl font-semibold p-4 border-b">Sleep Summary</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -460,7 +460,7 @@ export default function SleepPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 divide-y divide-gray-200">
               {sleepSummary.slice().reverse().map((record) => (
                 <tr key={record.date}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -497,7 +497,7 @@ export default function SleepPage() {
 // Stat card component
 function StatCard({ title, value, icon }: { title: string; value: string; icon: string }) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 flex items-center">
+    <div className="bg-white dark:bg-gray-900 dark:bg-gray-900 dark:bg-gray-900 rounded-lg shadow-md p-4 flex items-center">
       <div className="text-3xl mr-4">{icon}</div>
       <div>
         <h3 className="text-sm font-medium text-gray-500">{title}</h3>

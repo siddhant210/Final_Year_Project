@@ -182,7 +182,7 @@ export default function HeartRatePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Heart Rate Monitoring</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">Heart Rate Monitoring</h1>
       
       {/* Time range selector */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -205,7 +205,7 @@ export default function HeartRatePage() {
       </div>
 
       {/* Chart container */}
-      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-4 mb-6">
         <div className="h-80">
           <Line data={chartData} options={chartOptions} />
         </div>
@@ -236,24 +236,24 @@ export default function HeartRatePage() {
       </div>
 
       {/* Data table */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden">
         <h2 className="text-xl font-semibold p-4 border-b">Recent Measurements</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 dark:text-gray-300 uppercase tracking-wider">
                   Date & Time
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 dark:text-gray-300 uppercase tracking-wider">
                   Heart Rate (BPM)
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200">
               {heartRateData.slice(-10).reverse().map((record) => (
                 <tr key={record.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 dark:text-gray-300">
                     {new Date(record.created_at).toLocaleString()} {/* Corrected column name */}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -278,10 +278,10 @@ export default function HeartRatePage() {
 // Stat card component
 function StatCard({ title, value, icon }: { title: string; value: string; icon: string }) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 flex items-center">
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-4 flex items-center">
       <div className="text-3xl mr-4">{icon}</div>
       <div>
-        <h3 className="text-sm font-medium text-gray-500">{title}</h3>
+        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300 dark:text-gray-300">{title}</h3>
         <p className="text-2xl font-bold">{value}</p>
       </div>
     </div>

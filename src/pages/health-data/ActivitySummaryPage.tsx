@@ -6,8 +6,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import supabase from '../supabaseClient';
-
+import supabase from '../../supabaseClient';
 // Register ChartJS components
 ChartJS.register(
   ArcElement,
@@ -24,21 +23,21 @@ type ActivityRecord = {
 
 // Mock data that matches your CSV
 const MOCK_DATA: ActivityRecord[] = [
-  { date: '2025-02-08', ActiveEnergyBurned: 725.61, ExerciseTime: 7, StandHours: 18 },
-  { date: '2025-02-09', ActiveEnergyBurned: 343.506, ExerciseTime: 4, StandHours: 11 },
-  { date: '2025-02-10', ActiveEnergyBurned: 1631.46, ExerciseTime: 136, StandHours: 12 },
-  { date: '2025-02-11', ActiveEnergyBurned: 804.165, ExerciseTime: 71, StandHours: 14 },
-  { date: '2025-02-12', ActiveEnergyBurned: 1228.51, ExerciseTime: 112, StandHours: 16 },
-  { date: '2025-02-13', ActiveEnergyBurned: 753.236, ExerciseTime: 74, StandHours: 16 },
-  { date: '2025-02-14', ActiveEnergyBurned: 758.023, ExerciseTime: 60, StandHours: 16 },
-  { date: '2025-02-15', ActiveEnergyBurned: 1056.15, ExerciseTime: 76, StandHours: 14 },
-  { date: '2025-02-16', ActiveEnergyBurned: 614.191, ExerciseTime: 48, StandHours: 16 },
-  { date: '2025-02-17', ActiveEnergyBurned: 1298.3, ExerciseTime: 96, StandHours: 13 },
-  { date: '2025-02-18', ActiveEnergyBurned: 913.297, ExerciseTime: 67, StandHours: 16 },
-  { date: '2025-02-19', ActiveEnergyBurned: 992.136, ExerciseTime: 64, StandHours: 11 },
-  { date: '2025-02-20', ActiveEnergyBurned: 837.213, ExerciseTime: 66, StandHours: 15 },
-  { date: '2025-02-21', ActiveEnergyBurned: 892.344, ExerciseTime: 73, StandHours: 14 },
-  { date: '2025-02-22', ActiveEnergyBurned: 483.427, ExerciseTime: 4, StandHours: 13 }
+  { date: '2026-04-08', ActiveEnergyBurned: 725.61, ExerciseTime: 7, StandHours: 18 },
+  { date: '2026-04-09', ActiveEnergyBurned: 343.506, ExerciseTime: 4, StandHours: 11 },
+  { date: '2026-04-10', ActiveEnergyBurned: 1631.46, ExerciseTime: 136, StandHours: 12 },
+  { date: '2026-04-11', ActiveEnergyBurned: 804.165, ExerciseTime: 71, StandHours: 14 },
+  { date: '2026-04-12', ActiveEnergyBurned: 1228.51, ExerciseTime: 112, StandHours: 16 },
+  { date: '2026-04-13', ActiveEnergyBurned: 753.236, ExerciseTime: 74, StandHours: 16 },
+  { date: '2026-04-14', ActiveEnergyBurned: 758.023, ExerciseTime: 60, StandHours: 16 },
+  { date: '2026-04-15', ActiveEnergyBurned: 1056.15, ExerciseTime: 76, StandHours: 14 },
+  { date: '2026-04-16', ActiveEnergyBurned: 614.191, ExerciseTime: 48, StandHours: 16 },
+  { date: '2026-04-17', ActiveEnergyBurned: 1298.3, ExerciseTime: 96, StandHours: 13 },
+  { date: '2026-04-18', ActiveEnergyBurned: 913.297, ExerciseTime: 67, StandHours: 16 },
+  { date: '2026-04-19', ActiveEnergyBurned: 992.136, ExerciseTime: 64, StandHours: 11 },
+  { date: '2026-04-20', ActiveEnergyBurned: 837.213, ExerciseTime: 66, StandHours: 15 },
+  { date: '2026-04-21', ActiveEnergyBurned: 892.344, ExerciseTime: 73, StandHours: 14 },
+  { date: '2026-04-22', ActiveEnergyBurned: 483.427, ExerciseTime: 4, StandHours: 13 }
 ];
 
 // Target goals (adjust as needed)
@@ -49,21 +48,52 @@ const TARGETS = {
 };
 
 export default function ActivitySummaryPage() {
-  const [activityData, setActivityData] = useState<ActivityRecord[]>(MOCK_DATA);
+  const fetchActivityData = async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    const { data, error: fetchError } = await supabase
+      .from('activity_data')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (fetchError) throw fetchError;
+
+    console.log("DATA FROM DB:", data);
+
+    setActivityData(
+      data.map((d: any) => ({
+        date: d.created_at,
+        ActiveEnergyBurned: Number(d.calories),
+        ExerciseTime: Number(d.duration),
+        StandHours: Math.floor(Number(d.duration) / 5)
+      }))
+    );
+
+    if (data.length > 0) {
+      setSelectedDate(data[0].created_at);
+    }
+
+  } catch (err) {
+    console.error(err);
+    setError("Failed to fetch activity data");
+  } finally {
+    setLoading(false);
+  }
+};
+  const [activityData, setActivityData] = useState<ActivityRecord[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(MOCK_DATA[0].date);
   const [timeRange, setTimeRange] = useState<'7d' | '14d' | '30d'>('7d');
 
   useEffect(() => {
-    // In a real app, you would fetch data here
-    // fetchActivityData();
-  }, [timeRange]);
+  fetchActivityData();
+}, []);
 
   // Get filtered data based on time range
-  const filteredData = activityData.slice(0, 
-    timeRange === '7d' ? 7 : timeRange === '14d' ? 14 : 30
-  );
+  const filteredData = activityData;
 
   // Get selected day's data
   const selectedDayData = filteredData.find(item => item.date === selectedDate) || {
@@ -104,7 +134,7 @@ export default function ActivitySummaryPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Activity Summary</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">Activity Summary</h1>
       
       {/* Time range selector */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -171,7 +201,7 @@ export default function ActivitySummaryPage() {
       </div>
 
       {/* Averages */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 mb-8">
         <h2 className="text-xl font-semibold mb-4">Averages</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard 
@@ -196,19 +226,19 @@ export default function ActivitySummaryPage() {
       </div>
 
       {/* Data Table */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden">
         <h2 className="text-xl font-semibold p-4 border-b">Recent Activity</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Energy (kcal)</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exercise (mins)</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stand (hrs)</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Energy (kcal)</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Exercise (mins)</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Stand (hrs)</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200">
               {filteredData.map((record) => (
                 <tr 
                   key={record.date} 
@@ -271,7 +301,7 @@ function ActivityRing({ title, value, target, unit, color }: {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 text-center">
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 text-center">
       <h3 className="text-lg font-medium mb-4">{title}</h3>
       <div className="relative w-40 h-40 mx-auto mb-4">
         <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -301,7 +331,7 @@ function ActivityRing({ title, value, target, unit, color }: {
           <span className={`text-3xl font-bold ${colorClasses[color]}`}>
             {value.toFixed(0)}
           </span>
-          <span className="text-sm text-gray-500">{unit}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-300">{unit}</span>
         </div>
       </div>
       <p className="text-sm text-gray-600">
@@ -356,8 +386,8 @@ function StatCard({ title, value, progress, color }: {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4">
-      <h3 className="text-sm font-medium text-gray-500 mb-1">{title}</h3>
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-4">
+      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-1">{title}</h3>
       <p className="text-2xl font-bold mb-2">{value}</p>
       <div className="w-full bg-gray-200 rounded-full h-2">
         <div 
